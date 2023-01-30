@@ -22,7 +22,7 @@ const Signup = () => {
       if (res) {
         sendEmailVerification(auth.currentUser)
           .then((data) => {
-            console.log(data);
+            console.log("after verification data", auth);
           })
           .catch((err) => console.log(err));
         console.log("Res__>> ", res.user);
