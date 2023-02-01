@@ -20,8 +20,10 @@ const Signup = () => {
     try {
       const res = await signUp(email, password);
       if (res) {
+        // const checkVerified = await res.user.sendEmailVerification();
         sendEmailVerification(auth.currentUser)
           .then((data) => {
+            auth.currentUser.reload();
             console.log("after verification data", auth);
           })
           .catch((err) => console.log(err));

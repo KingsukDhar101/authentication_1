@@ -5,7 +5,7 @@ const ProtectedRoute = ({ children }) => {
   let {user} = useUserAuth();
   console.log("User: ", user);
   if (!user) {
-    return <Navigate to="/signup" />
+    return <Navigate to="/login" />
   }
   return children;
 };

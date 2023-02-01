@@ -17,17 +17,28 @@ export function UserAuthContextProvider({ children }) {
   }
   function login(email, password) {
     // window.localStorage.setItem("token", auth.accessToken);
-    signInWithEmailAndPassword(auth, email, password);
+    if (auth.currentUser?.emailVerified) {
+      return signInWithEmailAndPassword(auth, email, password);
+    } else {
+      
+    }
   }
   function logOut() {
     localStorage.removeItem("token");
     return signOut(auth);
   }
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      console.log("Auth", currentUser);
-      if (currentUser) {
-        localStorage.setItem("token", currentUser.accessToken);
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      console.log("Auth", currentUser?.email, currentUser?.emailVerified);
+      if(!!currentUser){
+        await currentUser.reload();
+      }
+
+      if (!!currentUser && currentUser?.emailVerified) {
+        console.log("email verified");
+        // localStorage.setItem("token", currentUser.accessToken);
+      } else {
+        console.log("email not verified");
       }
       // setToken(currentUser.accessToken);
 
